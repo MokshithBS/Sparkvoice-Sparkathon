@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SparkVoice: Our Technical Core & Workflow - Walmart Sparkathon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f2;
+            color: #3f3c36;
+        }
+        .container {
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #d95f02;
+            border-bottom-color: #d95f02;
+        }
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            color: #71717a;
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active {
+            color: #d95f02;
+            border-color: #d95f02;
+        }
+        .tech-card {
+            background-color: #ffffff;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .flow-step {
+            background-color: #fff;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+        .flow-arrow-h {
+            width: 100%;
+            height: 2px;
+            background-color: #d95f02;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .flow-arrow-h::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: -7px;
+            border-width: 8px 0 8px 10px;
+            border-color: transparent transparent transparent #d95f02;
+        }
+        .flow-arrow-v {
+            height: 50px;
+            width: 2px;
+            background-color: #d95f02;
+            margin: 0 auto;
+            position: relative;
+        }
+        .flow-arrow-v::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: -7px;
+            border-width: 10px 8px 0 8px;
+            border-color: #d95f02 transparent transparent transparent;
+        }
+        .flowchart-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .input-area {
+            min-height: 120px;
+            border: 2px dashed #d4d4d8;
+            border-radius: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 1rem;
+            color: #a1a1aa;
+        }
+        .btn-primary {
+            background-color: #d95f02;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #c05102;
+        }
+        .btn-secondary {
+            background-color: #ffffff;
+            color: #d95f02;
+            border: 2px solid #d95f02;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #fef2e6;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Chosen Palette: Earthy Harmony -->
+    <!-- Application Structure Plan: The page starts with a strong brand introduction. The "End-to-End Workflow" section provides a high-level overview with a simple HTML/CSS flowchart. The core "Our Technology Stack" section uses a tabbed interface to manage detailed information about AI for Understanding Human Inputs (further split into HTR and Speech Recognition) and the Agentic & Scalable Architecture. Each subsection within these tabs provides key tools and a clear "Real-World Example." A "Live Demo Simulation" section integrates a functional demonstration of the 'Speak It' and 'Snap It' features with a dynamic cart. A dedicated section highlights "What Makes SparkVoice Powerful," reinforcing key benefits. The overall flow moves from broad concept to specific technical details, then to a practical demonstration, and finally back to the value proposition, making the complex information digestible and interactive for a varied audience. -->
+    <!-- Visualization & Content Choices:
+        1. Hero Section: Uses large, bold text for branding and a concise value proposition.
+        2. End-to-End Workflow (Organize/Inform): Uses a grid layout with custom CSS for 'flow-step' blocks and 'flow-arrow' pseudo-elements to create a simple, visual flowchart. Goal is to illustrate the overall backend process.
+        3. Main Tech Tabs (Organize/Interact): Uses vanilla JS to create distinct tabs for "AI for Understanding Human Inputs" and "Agentic & Scalable Architecture". This helps segment complex information.
+        4. Nested Tech Cards (Inform): Within each tab, individual "tech-card" divs present specific technologies (e.g., CRAFT, Whisper, FastAPI) with bullet points and clear "Role in SparkVoice" descriptions.
+        5. Real-World Examples (Inform/Contextualize): Integrated within each tech card, these provide short, relatable scenarios to illustrate the technology's application.
+        6. Live Demo Simulation (Interact/Demonstrate): Replicates the 'Speak It' and 'Snap It' tabs from the previous demo, along with the 'Your Cart' display. Uses vanilla JS for input handling, cart management, and button states. Justification: Provides a direct, hands-on experience of SparkVoice's core functionality.
+        7. "What Makes SparkVoice Powerful" (Inform/Summarize): A simple grid layout with concise bullet points highlighting the main differentiators.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-800">SparkVoice Tech</h1>
+            <div class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                <a href="#workflow" class="nav-link text-sm lg:text-base">Workflow</a>
+                <a href="#tech-overview" class="nav-link text-sm lg:text-base">Tech Stack</a>
+                <a href="#demo" class="nav-link text-sm lg:text-base">Live Demo</a>
+                <a href="#powerful" class="nav-link text-sm lg:text-base">Why Powerful</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container px-6 py-12">
+
+        <section class="text-center pt-8 pb-16">
+            <h2 class="text-5xl md:text-6xl font-bold mb-4 text-gray-800">SparkVoice: The Tech Behind the Transformation</h2>
+            <p class="text-2xl md:text-3xl text-orange-700 font-semibold mb-6">Speak It or Snap It. Just Spark It!</p>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-600">Our voice-first, AI-driven commerce solution digitizes how India already shops. We combine cutting-edge AI with a scalable architecture to unlock e-commerce for India’s next 500 million users.</p>
+        </section>
+
+        <section id="workflow" class="mb-24 scroll-mt-20 bg-white p-8 rounded-lg shadow-lg">
+            <div class="text-center mb-10">
+                <h3 class="text-3xl font-bold text-gray-800">End-to-End Workflow: From Chit to Cart</h3>
+                <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">SparkVoice streamlines the entire order process, ensuring seamless flow from user intent to kirana fulfillment.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center">
+                <div class="flow-step col-span-1">User Input (Multi-modal)</div>
+                <div class="flowchart-connector hidden md:flex">
+                    <div class="flow-arrow-h"></div>
+                </div>
+                <div class="flowchart-connector flex md:hidden flex-col items-center justify-center py-4"><div class="flow-arrow-v"></div></div>
+
+                <div class="flow-step col-span-1">AI Processing (HTR/ASR/NLP)</div>
+                 <div class="flowchart-connector hidden md:flex">
+                    <div class="flow-arrow-h"></div>
+                </div>
+                <div class="flowchart-connector flex md:hidden flex-col items-center justify-center py-4"><div class="flow-arrow-v"></div></div>
+
+                <div class="flow-step col-span-1">Cart Builder & Preference Mapping</div>
+                 <div class="flowchart-connector hidden md:flex">
+                    <div class="flow-arrow-h"></div>
+                </div>
+                <div class="flowchart-connector flex md:hidden flex-col items-center justify-center py-4"><div class="flow-arrow-v"></div></div>
+
+                <div class="flow-step col-span-1">Order to Kirana (via Dashboard/WhatsApp)</div>
+                 <div class="flowchart-connector hidden md:flex">
+                    <div class="flow-arrow-h"></div>
+                </div>
+                <div class="flowchart-connector flex md:hidden flex-col items-center justify-center py-4"><div class="flow-arrow-v"></div></div>
+
+                <div class="flow-step col-span-1">Fulfillment & Payment (UPI/Logistics)</div>
+            </div>
+        </section>
+
+        <section id="tech-overview" class="mb-24 scroll-mt-20 bg-white p-8 rounded-lg shadow-lg">
+            <div class="text-center mb-10">
+                <h3 class="text-3xl font-bold text-gray-800">Our Technology Stack</h3>
+                <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">A look under the hood at the core technologies powering SparkVoice's inclusive commerce.</p>
+            </div>
+
+            <div class="flex justify-center border-b border-gray-200 mb-8">
+                <button id="aiInputsTab" class="tab-btn active">🤖 AI for Understanding Human Inputs</button>
+                <button id="architectureTab" class="tab-btn">⚙️ Agentic & Scalable Architecture</button>
+            </div>
+
+            <div id="aiInputsContent" class="fade-in">
+                <h4 class="text-2xl font-bold text-gray-800 mb-6 text-center">AI for Understanding Human Inputs</h4>
+                <div class="grid md:grid-cols-2 gap-8 mb-10">
+                    <div class="tech-card">
+                        <h5 class="text-xl font-bold text-gray-800 mb-3 flex items-center">📝 Handwriting Recognition (HTR)</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong class="font-semibold">CRAFT:</strong> Detects messy/curved text regions in handwritten slips.</li>
+                            <li><strong class="font-semibold">Microsoft TrOCR + EasyOCR:</strong> For recognizing Devanagari & Roman handwriting.</li>
+                            <li><strong class="font-semibold">Fallback: Tesseract OCR with Indic models:</strong> For low-latency extraction.</li>
+                            <li><strong class="font-semibold">NLP Pipeline (spaCy + word2number):</strong> Extracts products & quantities (e.g., "half dozen eggs" → "6 eggs").</li>
+                        </ul>
+                        <div class="mt-6 p-4 bg-gray-50 rounded-md border border-gray-200">
+                            <p class="font-semibold text-gray-800 mb-2">Real-World Example:</p>
+                            <p class="text-gray-700 text-sm">A kirana owner snaps a photo of a customer's handwritten list: "2 kilo aalu, 1 tel bottle". <strong class="text-orange-700">CRAFT</strong> finds the text, <strong class="text-orange-700">TrOCR</strong> reads it accurately despite messy handwriting, and our <strong class="text-orange-700">NLP</strong> converts "2 kilo aalu" into "2 kg Potatoes" for the digital cart.</p>
+                        </div>
+                    </div>
+
+                    <div class="tech-card">
+                        <h5 class="text-xl font-bold text-gray-800 mb-3 flex items-center">🗣️ Speech Recognition</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong class="font-semibold">OpenAI Whisper + AI4Bharat Indic Conformers:</strong> For accurate Indian language transcription.</li>
+                            <li><strong class="font-semibold">Vakyansh/VOSK fallback:</strong> For offline or low-bandwidth contexts.</li>
+                            <li><strong class="font-semibold">Intent Extraction:</strong> Custom NER models & rule-based parsing convert speech to structured items.</li>
+                        </ul>
+                        <div class="mt-6 p-4 bg-gray-50 rounded-md border border-gray-200">
+                            <p class="font-semibold text-gray-800 mb-2">Real-World Example:</p>
+                            <p class="text-gray-700 text-sm">A customer on a basic phone calls SparkVoice and says, "Mujhe 500 gram cheeni chahiye aur do packet doodh" (I need 500 grams sugar and two packets milk). <strong class="text-orange-700">Indic Conformers</strong> transcribe it, and our <strong class="text-orange-700">Intent Extraction</strong> correctly identifies "500g Sugar" and "2 packets Milk" for the cart.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="architectureContent" class="fade-in hidden">
+                <h4 class="text-2xl font-bold text-gray-800 mb-6 text-center">Agentic & Scalable Architecture</h4>
+                <div class="grid md:grid-cols-2 gap-8 mb-10">
+                    <div class="tech-card">
+                        <h5 class="text-xl font-bold text-gray-800 mb-3 flex items-center">⚙️ Core Architecture</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong class="font-semibold">Modular AI Agents:</strong> OCR Agent, Voice Agent, Cart Builder Agent, Preference Mapper.</li>
+                            <li><strong class="font-semibold">Backend:</strong> Python + FastAPI (for high-performance microservices).</li>
+                            <li><strong class="font-semibold">Database:</strong> MongoDB Atlas (schema-flexible, geo-replicated for India).</li>
+                            <li><strong class="font-semibold">Frontend:</strong> React Native (mobile app) + WhatsApp Chatbot + IVR support.</li>
+                        </ul>
+                        <div class="mt-6 p-4 bg-gray-50 rounded-md border border-gray-200">
+                            <p class="font-semibold text-gray-800 mb-2">Real-World Example:</p>
+                            <p class="text-gray-700 text-sm">When a user sends an image of a list, the <strong class="text-orange-700">OCR Agent</strong> processes it. Then, the <strong class="text-orange-700">Cart Builder Agent</strong> uses this info, potentially consulting the <strong class="text-orange-700">Preference Mapper</strong> for brand suggestions, all orchestrated by our <strong class="text-orange-700">FastAPI</strong> backend. MongoDB ensures rapid data access.</p>
+                        </div>
+                    </div>
+
+                    <div class="tech-card">
+                        <h5 class="text-xl font-bold text-gray-800 mb-3 flex items-center">🌐 Integrations & Hosting</h5>
+                        <ul class="list-disc list-inside space-y-2 text-gray-700">
+                            <li><strong class="font-semibold">WhatsApp Integration:</strong> Twilio’s WhatsApp API for easy onboarding and message parsing.</li>
+                            <li><strong class="font-semibold">IVR System:</strong> Built using Twilio Voice for feature phone compatibility.</li>
+                            <li><strong class="font-semibold">Cloud Hosting:</strong> Render.com or Railway (for MVP), scalable to GCP Mumbai or AWS India for production.</li>
+                            <li><strong class="font-semibold">Payments/Delivery Integration:</strong> UPI APIs + hyperlocal logistics APIs.</li>
+                        </ul>
+                        <div class="mt-6 p-4 bg-gray-50 rounded-md border border-gray-200">
+                            <p class="font-semibold text-gray-800 mb-2">Real-World Example:</p>
+                            <p class="text-gray-700 text-sm">A user chats on WhatsApp; <strong class="text-orange-700">Twilio's API</strong> receives the message. After cart building, payment is via <strong class="text-orange-700">UPI API</strong>, and delivery is managed by <strong class="text-orange-700">hyperlocal logistics APIs</strong>. Our scalable cloud infrastructure ensures smooth operations, even during peak demand.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="demo" class="mb-24 scroll-mt-20 bg-white p-8 rounded-lg shadow-lg">
+            <div class="text-center mb-10">
+                <h3 class="text-3xl font-bold text-gray-800">Experience SparkVoice: Live Demo</h3>
+                <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">Interact with the core functionalities of SparkVoice: "Speak It" or "Snap It" to build your cart instantly!</p>
+            </div>
+            <div class="flex justify-center border-b border-gray-200 mb-8">
+                <button id="demoSpeakTab" class="tab-btn active">🗣️ Speak It</button>
+                <button id="demoSnapTab" class="tab-btn">📸 Snap It</button>
+            </div>
+
+            <div id="demoSpeakContent" class="fade-in">
+                <h4 class="text-2xl font-bold text-gray-800 mb-4 text-center">Simulate Voice Input</h4>
+                <div class="input-area mb-6">
+                    <p class="text-gray-600 mb-3">Imagine speaking your grocery list aloud in your local language.</p>
+                    <textarea id="voiceInput" class="w-full p-3 border border-gray-300 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-orange-500" rows="3" placeholder="e.g., 1 kg atta, 500g sugar, 2 packets milk, one dozen eggs"></textarea>
+                </div>
+                <div class="text-center">
+                    <button id="addVoiceToListBtn" class="btn-primary">Add to Cart</button>
+                </div>
+            </div>
+
+            <div id="demoSnapContent" class="fade-in hidden">
+                <h4 class="text-2xl font-bold text-gray-800 mb-4 text-center">Simulate Handwritten List Scan</h4>
+                <div class="input-area mb-6">
+                    <p class="text-gray-600 mb-3">Imagine snapping a photo of your handwritten grocery list.</p>
+                    <img src="https://placehold.co/400x150/f0f0f0/333333?text=Handwritten+List+Image+Placeholder" alt="Handwritten list placeholder" class="w-full max-w-[400px] rounded-md border border-gray-300 mx-auto mb-4">
+                    <p class="text-sm text-gray-500">Our AI-powered OCR and HTR (CRAFT, Deep CNN, CRNN) works its magic here!</p>
+                </div>
+                <div class="text-center">
+                    <button id="processImageBtn" class="btn-primary">Process List from Image</button>
+                </div>
+            </div>
+
+            <div class="mt-12">
+                <h3 class="text-3xl font-bold text-gray-800 mb-6 text-center">Your SparkVoice Cart</h3>
+                <div id="cartItems" class="space-y-3 mb-6 min-h-[100px] max-h-[300px] overflow-y-auto border border-gray-200 p-4 rounded-md bg-gray-50">
+                    <p class="text-gray-500 text-center">Your cart is empty. Try speaking or snapping your list!</p>
+                </div>
+                <div class="text-center">
+                    <button id="resetCartBtn" class="btn-secondary">Reset Cart</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="powerful" class="mb-24 scroll-mt-20 bg-white p-8 rounded-lg shadow-lg">
+            <div class="text-center mb-10">
+                <h3 class="text-3xl font-bold text-gray-800">What Makes SparkVoice Powerful</h3>
+                <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">Our differentiators ensure a truly inclusive and efficient commerce experience for every Indian shopper.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="tech-card text-center">
+                    <h5 class="text-xl font-bold text-gray-800 mb-2">🚀 Zero-Friction Entry</h5>
+                    <p class="text-gray-700 text-sm">Users don't type or browse—they just speak or snap their list, making digital commerce effortless.</p>
+                </div>
+                <div class="tech-card text-center">
+                    <h5 class="text-xl font-bold text-gray-800 mb-2">💡 Brand Smartness</h5>
+                    <p class="text-gray-700 text-sm">SKU mapping defaults to user’s past purchases, like Instacart, for quick, personalized cart building.</p>
+                </div>
+                <div class="tech-card text-center">
+                    <h5 class="text-xl font-bold text-gray-800 mb-2">🧠 List Intelligence</h5>
+                    <p class="text-gray-700 text-sm">Auto-fixes OCR errors and understands complex list formats like "2 kg rice, 1 oil" with high accuracy.</p>
+                </div>
+                <div class="tech-card text-center">
+                    <h5 class="text-xl font-bold text-gray-800 mb-2">🗣️ Multilingual + Multimodal</h5>
+                    <p class="text-gray-700 text-sm">Works across voice, text, image, and IVR—in any Indian language, catering to diverse needs.</p>
+                </div>
+                <div class="tech-card text-center">
+                    <h5 class="text-xl font-bold text-gray-800 mb-2">📱 Feature-Phone Friendly</h5>
+                    <p class="text-gray-700 text-sm">Even users without smartphones can shop effortlessly using simple voice calls (via IVR).</p>
+                </div>
+                <div class="tech-card text-center">
+                    <h5 class="text-xl font-bold text-gray-800 mb-2">🏪 Real-Time Retail Sync</h5>
+                    <p class="text-gray-700 text-sm">Orders route instantly to local kiranas via dashboard, WhatsApp, or soundbox for fast fulfillment.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="text-center pt-8 pb-16">
+            <h3 class="text-3xl font-bold text-gray-800 mb-4">Inspired by Global Benchmarks — Tailored for Bharat</h3>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-600">Just like Instacart uses GPT‑4V to parse grocery lists and Smart List matches handwritten lists to SKUs, SparkVoice brings these global innovations to India’s kiranas and consumers — with offline access, regional language support, and inclusive pricing.</p>
+            <p class="text-xl md:text-2xl font-bold text-orange-700 mt-6">SparkVoice reimagines Indian shopping habits using voice, vision, and vernacular — to make digital commerce as natural as handing over a chit.</p>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-16">
+        <div class="container px-6 py-8 text-center">
+            <p>SparkVoice for Walmart Sparkathon</p>
+            <p class="text-sm text-gray-400 mt-2">Connecting India through Inclusive Commerce.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const aiInputsTab = document.getElementById('aiInputsTab');
+            const architectureTab = document.getElementById('architectureTab');
+            const aiInputsContent = document.getElementById('aiInputsContent');
+            const architectureContent = document.getElementById('architectureContent');
+
+            function switchTechTab(activeTab) {
+                if (activeTab === 'aiInputs') {
+                    aiInputsTab.classList.add('active');
+                    architectureTab.classList.remove('active');
+                    aiInputsContent.classList.remove('hidden');
+                    architectureContent.classList.add('hidden');
+                } else {
+                    architectureTab.classList.add('active');
+                    aiInputsTab.classList.remove('active');
+                    architectureContent.classList.remove('hidden');
+                    aiInputsContent.classList.add('hidden');
+                }
+            }
+
+            aiInputsTab.addEventListener('click', () => switchTechTab('aiInputs'));
+            architectureTab.addEventListener('click', () => switchTechTab('architecture'));
+
+            switchTechTab('aiInputs'); // Initial tech tab
+
+            // Demo specific logic
+            const demoSpeakTab = document.getElementById('demoSpeakTab');
+            const demoSnapTab = document.getElementById('demoSnapTab');
+            const demoSpeakContent = document.getElementById('demoSpeakContent');
+            const demoSnapContent = document.getElementById('demoSnapContent');
+            const voiceInput = document.getElementById('voiceInput');
+            const addVoiceToListBtn = document.getElementById('addVoiceToListBtn');
+            const processImageBtn = document.getElementById('processImageBtn');
+            const cartItemsContainer = document.getElementById('cartItems');
+            const resetCartBtn = document.getElementById('resetCartBtn');
+
+            let shoppingCart = [];
+
+            const mockImageItems = [
+                "1kg Atta (Ashirwad)",
+                "500g Sugar",
+                "2 packets Milk (Amul)",
+                "1 dozen Eggs",
+                "1kg Onions",
+                "250g Green Chillies"
+            ];
+
+            function renderCart() {
+                if (shoppingCart.length === 0) {
+                    cartItemsContainer.innerHTML = '<p class="text-gray-500 text-center">Your cart is empty. Try speaking or snapping your list!</p>';
+                } else {
+                    cartItemsContainer.innerHTML = '';
+                    shoppingCart.forEach((item, index) => {
+                        const itemDiv = document.createElement('div');
+                        itemDiv.className = 'bg-white p-3 rounded-md shadow-sm flex items-center justify-between text-gray-800';
+                        itemDiv.innerHTML = `
+                            <span>${index + 1}. ${item}</span>
+                            <span class="text-green-600">✓ Added</span>
+                        `;
+                        cartItemsContainer.appendChild(itemDiv);
+                    });
+                    cartItemsContainer.scrollTop = cartItemsContainer.scrollHeight; // Scroll to bottom
+                }
+            }
+
+            function switchDemoTab(activeTab) {
+                if (activeTab === 'speak') {
+                    demoSpeakTab.classList.add('active');
+                    demoSnapTab.classList.remove('active');
+                    demoSpeakContent.classList.remove('hidden');
+                    demoSnapContent.classList.add('hidden');
+                } else {
+                    demoSnapTab.classList.add('active');
+                    demoSpeakTab.classList.remove('active');
+                    demoSnapContent.classList.remove('hidden');
+                    demoSpeakContent.classList.add('hidden');
+                }
+            }
+
+            demoSpeakTab.addEventListener('click', () => switchDemoTab('speak'));
+            demoSnapTab.addEventListener('click', () => switchDemoTab('snap'));
+
+            addVoiceToListBtn.addEventListener('click', () => {
+                const inputText = voiceInput.value.trim();
+                if (inputText) {
+                    const items = inputText.split(',').map(item => item.trim()).filter(item => item !== '');
+                    shoppingCart.push(...items);
+                    voiceInput.value = '';
+                    renderCart();
+                }
+            });
+
+            processImageBtn.addEventListener('click', () => {
+                processImageBtn.textContent = 'Processing...';
+                processImageBtn.disabled = true;
+
+                setTimeout(() => {
+                    shoppingCart.push(...mockImageItems);
+                    renderCart();
+                    processImageBtn.textContent = 'List Processed!';
+                    processImageBtn.classList.remove('btn-primary');
+                    processImageBtn.classList.add('btn-secondary');
+                    
+                    setTimeout(() => {
+                        processImageBtn.textContent = 'Process List from Image';
+                        processImageBtn.disabled = false;
+                        processImageBtn.classList.remove('btn-secondary');
+                        processImageBtn.classList.add('btn-primary');
+                    }, 1500);
+
+                }, 1000);
+            });
+
+            resetCartBtn.addEventListener('click', () => {
+                shoppingCart = [];
+                renderCart();
+            });
+
+            renderCart();
+            switchDemoTab('speak'); // Initial demo tab
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Kirana-Tech Opportunity: Bridging India's Digital Divide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FEFBF6;
+            color: #4A4A4A;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .nav-link {
+            transition: color 0.3s ease, border-bottom-color 0.3s ease;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #D97706;
+            border-bottom-color: #D97706;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .solution-step::before {
+            content: '→';
+            position: absolute;
+            right: -2.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: #F59E0B;
+            opacity: 0.5;
+        }
+        .solution-grid > div:last-child .solution-step::before {
+            content: '';
+        }
+         @media (max-width: 1023px) {
+            .solution-step::before {
+                content: '↓';
+                right: 50%;
+                top: auto;
+                bottom: -2.5rem;
+                transform: translateX(50%);
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Chosen Palette: Warm Harmony (Background: #FEFBF6, Text: #4A4A4A, Primary Accent: #D97706, Secondary Accent: #10B981) -->
+    <!-- Application Structure Plan: A single-page, thematic scrolling journey designed to tell a story. It starts with the macro problem (the digital divide), drills down into the core user pain points for both consumers and retailers, presents the innovative 'Snap & Shop' concept as a solution, showcases real-world pilots, visualizes the adoption hurdles, and concludes by quantifying the opportunity with data inspired by analogous studies. This structure was chosen over a simple report layout to guide the user through a logical narrative, making complex information more intuitive and memorable. Key interactions include hover-reveal cards, clickable tabs for pilot info, and interactive charts that provide deeper context on click, encouraging exploration. -->
+    <!-- Visualization & Content Choices: 
+        1. Key Metrics (Inform): Large number cards with icons to immediately establish the scale of the problem (500M users, 70% handwritten lists). Goal is immediate impact.
+        2. Problem/Challenge (Organize/Compare): A two-column layout with interactive cards for 'Customer Reality' vs. 'Retailer Struggle'. Goal is to structure the problem space clearly. Interaction: Hover to reveal details. Method: HTML/Tailwind.
+        3. Solution Flow (Organize): A visual, multi-step diagram of 'Snap & Shop'. Goal: Make the abstract concept concrete and easy to follow. Method: HTML/Tailwind grid with CSS pseudo-elements for arrows.
+        4. Pilots (Compare): A tabbed interface with company logos. Goal: Allow users to compare current market experiments without information overload. Interaction: Click logo to switch content. Method: Vanilla JS controlling visibility of content blocks.
+        5. Adoption Hurdles (Compare/Inform): An interactive horizontal bar chart. Goal: Visualize the magnitude of different challenges. Interaction: Clicking a bar displays a detailed explanation below the chart. Method: Chart.js, Vanilla JS for interactivity. Justification: More engaging than a static list and allows for progressive disclosure of information.
+        6. Efficiency Impact (Compare/Inform): A grouped bar chart comparing Traditional vs. 'Optimized' Kirana processes. Goal: Quantify the potential benefits. Data is explicitly framed as an analogy to systems like GROCAFAST to provide a data-backed projection. Method: Chart.js.
+        CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+            <h1 class="text-xl font-bold text-gray-800">Kirana-Tech Insights</h1>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#problem" class="nav-link">The Divide</a>
+                <a href="#solution" class="nav-link">The Solution</a>
+                <a href="#pilots" class="nav-link">Market Pilots</a>
+                <a href="#hurdles" class="nav-link">The Hurdles</a>
+                <a href="#opportunity" class="nav-link">The Opportunity</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <section class="text-center mb-24">
+            <h2 class="text-4xl md:text-5xl font-bold mb-4 text-gray-800">From Handwritten Slips to Digital Carts</h2>
+            <p class="text-lg md:text-xl max-w-3xl mx-auto text-gray-600">Analyzing the next wave of e-commerce innovation designed for the 500 million Indian consumers in Tier 2/3 cities and beyond.</p>
+        </section>
+
+        <section id="problem" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-800">India's Great Digital Commerce Divide</h3>
+                <p class="mt-2 text-lg text-gray-600">The problem occurs daily across semi-urban and rural India, where traditional habits meet digital barriers.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 text-center">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <div class="text-4xl text-amber-600 mb-2">👤</div>
+                    <p class="text-2xl font-bold text-gray-800">500M+</p>
+                    <p class="text-gray-600">Potential users disconnected from mainstream e-commerce.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <div class="text-4xl text-amber-600 mb-2">📝</div>
+                    <p class="text-2xl font-bold text-gray-800">70%</p>
+                    <p class="text-gray-600">Of Indian homes still use handwritten notes for daily purchases.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <div class="text-4xl text-amber-600 mb-2">🗣️</div>
+                    <p class="text-2xl font-bold text-gray-800">95%</p>
+                    <p class="text-gray-600">Users frustrated by voice assistant errors, but open to correcting text.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                     <div class="text-4xl text-amber-600 mb-2">⏱️</div>
+                    <p class="text-2xl font-bold text-gray-800">3x Faster</p>
+                    <p class="text-gray-600">Voice search can be up to 3 times faster than typing for query input.</p>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-lg border border-gray-200">
+                    <h4 class="text-2xl font-bold mb-4 text-gray-800">The Customer's Reality</h4>
+                    <p class="mb-6 text-gray-600">For millions, especially mothers and elders, complex apps are a non-starter. The comfort of a handwritten "chit" or a verbal instruction to a family member remains the primary way to shop.</p>
+                    <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start"><span class="text-amber-600 font-bold mr-3">›</span><span><strong class="font-semibold">Digital Illiteracy:</strong> Unfamiliarity with app navigation, "add to cart," and checkout processes.</span></li>
+                        <li class="flex items-start"><span class="text-amber-600 font-bold mr-3">›</span><span><strong class="font-semibold">Language Barriers:</strong> Most apps are English-first, alienating a vast multi-lingual population.</span></li>
+                        <li class="flex items-start"><span class="text-amber-600 font-bold mr-3">›</span><span><strong class="font-semibold">Access Issues:</strong> Lack of personal smartphones or reliable internet connectivity.</span></li>
+                    </ul>
+                </div>
+                <div class="bg-white p-8 rounded-lg border border-gray-200">
+                    <h4 class="text-2xl font-bold mb-4 text-gray-800">The Retailer's Struggle</h4>
+                    <p class="mb-6 text-gray-600">Local Kirana stores, the backbone of community commerce, are eager to grow but struggle with complex, expensive e-commerce solutions that don't fit their workflow.</p>
+                     <ul class="space-y-3 text-gray-700">
+                        <li class="flex items-start"><span class="text-green-600 font-bold mr-3">›</span><span><strong class="font-semibold">Technical Complexity:</strong> High barrier to adopting and maintaining modern e-commerce platforms.</span></li>
+                        <li class="flex items-start"><span class="text-green-600 font-bold mr-3">›</span><span><strong class="font-semibold">No Inclusive Interface:</strong> Lack of systems to receive orders via voice or image in local languages.</span></li>
+                        <li class="flex items-start"><span class="text-green-600 font-bold mr-3">›</span><span><strong class="font-semibold">Manual Overhead:</strong> Time-consuming and error-prone process of transcribing handwritten or verbal orders.</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="solution" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-800">The Solution: "Snap It and Shop It"</h3>
+                <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">A low-tech, voice-first, and camera-first approach that respects existing cultural habits while bringing them into the digital age. This workflow bridges the gap between consumer and retailer.</p>
+            </div>
+
+            <div class="grid lg:grid-cols-5 gap-y-16 lg:gap-x-8 items-start solution-grid">
+                <div class="text-center relative solution-step">
+                    <div class="flex items-center justify-center bg-amber-100 rounded-full w-24 h-24 mx-auto mb-4 border-4 border-amber-200">
+                        <span class="text-4xl">📝</span>
+                    </div>
+                    <h5 class="font-bold text-lg">1. Write a List</h5>
+                    <p class="text-gray-600 text-sm">The consumer continues their lifelong habit of writing a grocery list on paper.</p>
+                </div>
+                <div class="text-center relative solution-step">
+                    <div class="flex items-center justify-center bg-amber-100 rounded-full w-24 h-24 mx-auto mb-4 border-4 border-amber-200">
+                         <span class="text-4xl">📸</span>
+                    </div>
+                    <h5 class="font-bold text-lg">2. Scan or Speak</h5>
+                    <p class="text-gray-600 text-sm">Using a simple interface, they snap a photo of the list or speak the items aloud.</p>
+                </div>
+                <div class="text-center relative solution-step">
+                    <div class="flex items-center justify-center bg-amber-100 rounded-full w-24 h-24 mx-auto mb-4 border-4 border-amber-200">
+                         <span class="text-4xl">🤖</span>
+                    </div>
+                    <h5 class="font-bold text-lg">3. AI Digitizes</h5>
+                    <p class="text-gray-600 text-sm">AI/OCR technology reads the list, converting it into a digital order, asking for clarification if needed.</p>
+                </div>
+                <div class="text-center relative solution-step">
+                    <div class="flex items-center justify-center bg-amber-100 rounded-full w-24 h-24 mx-auto mb-4 border-4 border-amber-200">
+                         <span class="text-4xl">🛒</span>
+                    </div>
+                    <h5 class="font-bold text-lg">4. Retailer Receives</h5>
+                    <p class="text-gray-600 text-sm">The local Kirana store receives a clear, digitized order on a simple device, ready for fulfillment.</p>
+                </div>
+                 <div class="text-center relative solution-step">
+                    <div class="flex items-center justify-center bg-amber-100 rounded-full w-24 h-24 mx-auto mb-4 border-4 border-amber-200">
+                         <span class="text-4xl">🛵</span>
+                    </div>
+                    <h5 class="font-bold text-lg">5. Order Fulfilled</h5>
+                    <p class="text-gray-600 text-sm">The Kirana owner fulfills the order for pickup or local delivery, completing the seamless loop.</p>
+                </div>
+            </div>
+        </section>
+
+
+        <section id="pilots" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-800">Who is Building This?</h3>
+                <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">The "Snap it and Shop it" concept is in its infancy, with a few major players piloting the technology. Click on a logo to see how they are implementing it.</p>
+            </div>
+
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <div class="flex justify-center items-center border-b border-gray-200 mb-6 space-x-4 md:space-x-8">
+                    <button class="pilot-btn p-4" data-pilot="swiggy">
+                        <img src="https://placehold.co/120x40/FFFFFF/000000?text=Swiggy" alt="Swiggy Instamart Logo" class="h-8 md:h-10 opacity-50 grayscale transition duration-300">
+                    </button>
+                    <button class="pilot-btn p-4" data-pilot="instacart">
+                        <img src="https://placehold.co/120x40/FFFFFF/000000?text=Instacart" alt="Instacart Logo" class="h-8 md:h-10 opacity-50 grayscale transition duration-300">
+                    </button>
+                    <button class="pilot-btn p-4" data-pilot="walmart">
+                        <img src="https://placehold.co/120x40/FFFFFF/000000?text=Walmart" alt="Walmart Logo" class="h-8 md:h-10 opacity-50 grayscale transition duration-300">
+                    </button>
+                </div>
+
+                <div id="pilot-content">
+                    
+                </div>
+            </div>
+        </section>
+
+
+        <section id="hurdles" class="mb-24 scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-800">Why Isn't It Mainstream Yet?</h3>
+                <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">While the idea is powerful, significant technical and behavioral hurdles remain. Click on a bar to learn more about each challenge.</p>
+            </div>
+            <div class="bg-white p-8 rounded-lg shadow-lg">
+                <div class="chart-container">
+                    <canvas id="hurdlesChart"></canvas>
+                </div>
+                <div id="hurdle-info" class="mt-8 p-6 bg-gray-50 rounded-lg min-h-[100px] text-center flex items-center justify-center">
+                    <p class="text-gray-500">Click on a bar in the chart to see details about that hurdle.</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="opportunity" class="scroll-mt-20">
+            <div class="text-center mb-12">
+                <h3 class="text-3xl font-bold text-gray-800">Quantifying the Opportunity</h3>
+                <p class="mt-2 text-lg text-gray-600 max-w-3xl mx-auto">By digitizing the most common ordering method, the potential for efficiency gains is massive for both customers and retailers.</p>
+            </div>
+             <div class="bg-white p-8 rounded-lg shadow-lg">
+                <p class="text-center text-gray-600 mb-8 italic">While direct data on "Snap & Shop" for Kiranas is emerging, studies on analogous retail optimizations (like the GROCAFAST system) show how technology can drastically cut time and effort. The chart below projects similar potential gains in the Kirana context.</p>
+                <div class="chart-container">
+                    <canvas id="efficiencyChart"></canvas>
+                </div>
+             </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-gray-800 text-white mt-24">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>Interactive Report generated based on analysis of the Indian retail market.</p>
+            <p class="text-sm text-gray-400 mt-2">This is a conceptual application for demonstration purposes.</p>
+        </div>
+    </footer>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const hurdlesData = {
+        labels: ['Handwriting/OCR Challenges', 'Item Ambiguity', 'User Habits & Preferences', 'Alternative Interfaces', 'Limited Awareness'],
+        datasets: [{
+            label: 'Significance of Hurdle',
+            data: [90, 85, 75, 60, 50],
+            backgroundColor: [
+                'rgba(217, 119, 6, 0.2)',
+                'rgba(217, 119, 6, 0.4)',
+                'rgba(217, 119, 6, 0.6)',
+                'rgba(217, 119, 6, 0.8)',
+                'rgba(217, 119, 6, 1.0)',
+            ],
+            borderColor: [
+                'rgb(217, 119, 6)',
+                'rgb(217, 119, 6)',
+                'rgb(217, 119, 6)',
+                'rgb(217, 119, 6)',
+                'rgb(217, 119, 6)',
+            ],
+            borderWidth: 1
+        }]
+    };
+
+    const hurdleDescriptions = [
+        "Translating messy, free-form lists into precise products is highly error-prone. Misreading handwriting or item names forces user correction, defeating the convenience. As one engineer noted, 'OCR results can be messy,' requiring significant cleanup.",
+        "A generic item like 'bread' or 'eggs' can match dozens of products in a store's inventory. The system must either guess based on past purchases or ask the user to clarify, which adds friction to the process.",
+        "The inertia of writing lists on paper or in simple note apps is strong. For older or less tech-savvy users, the act of speaking to a bot or uploading a photo can feel awkward and unfamiliar, hindering adoption.",
+        "Companies have invested heavily in other 'easy' interfaces like voice assistants (Alexa, Google Assistant). While more mature, they often handle one item at a time. Many users are now comfortable with these or simple in-app search.",
+        "The feature is extremely new and only exists in limited pilots. Most shoppers don't know it's an option. Until wider rollout and marketing, uptake will naturally remain low as customers rarely encounter it."
+    ];
+
+    const hurdlesChartCtx = document.getElementById('hurdlesChart').getContext('2d');
+    const hurdlesChart = new Chart(hurdlesChartCtx, {
+        type: 'bar',
+        data: hurdlesData,
+        options: {
+            indexAxis: 'y',
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return ` Significance: ${context.raw}`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 100
+                },
+                y: {
+                    ticks: {
+                        callback: function(value, index, values) {
+                            const label = this.getLabelForValue(value);
+                            return label.length > 25 ? label.substring(0, 25) + '...' : label;
+                        }
+                    }
+                }
+            },
+            onClick: (event, elements) => {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const infoBox = document.getElementById('hurdle-info');
+                    infoBox.innerHTML = `<p class="text-gray-800 text-left md:text-center">${hurdleDescriptions[index]}</p>`;
+                }
+            }
+        }
+    });
+
+    const efficiencyData = {
+        labels: ['Order Placement Time', 'Order Processing (Retailer)', 'Order Accuracy'],
+        datasets: [{
+            label: 'Traditional Method',
+            data: [100, 100, 70],
+            backgroundColor: 'rgba(239, 68, 68, 0.6)',
+            borderColor: 'rgb(239, 68, 68)',
+            borderWidth: 1
+        }, {
+            label: 'Optimized Digital Method',
+            data: [35, 40, 95],
+            backgroundColor: 'rgba(16, 185, 129, 0.6)',
+            borderColor: 'rgb(16, 185, 129)',
+            borderWidth: 1
+        }]
+    };
+
+    const efficiencyChartCtx = document.getElementById('efficiencyChart').getContext('2d');
+    new Chart(efficiencyChartCtx, {
+        type: 'bar',
+        data: efficiencyData,
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Projected Efficiency Gains (Lower is Better for Time)'
+                },
+                 tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (context.parsed.y !== null) {
+                                label += `${context.parsed.y}% Effort/Time`;
+                            }
+                            return label;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return value + '%'
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Relative Time / Error Rate (%)'
+                    }
+                }
+            }
+        }
+    });
+
+    const pilotBtns = document.querySelectorAll('.pilot-btn');
+    const pilotContent = document.getElementById('pilot-content');
+    
+    const pilotDetails = {
+        swiggy: {
+            img: "https://placehold.co/120x40/FFFFFF/e97524?text=Swiggy",
+            title: "Swiggy Instamart (India)",
+            subtitle: "Pilot Launched: 'Shopping List'",
+            points: [
+                "Users can 'Say it, Scan it, Write it' to create a cart from a full list.",
+                "Uses OCR/AI to recognize handwritten or typed notes from an image.",
+                "Early reports claim it dramatically cuts order-creation time and improves conversion.",
+                "This is a live pilot for subsets of users in India as of late 2024."
+            ]
+        },
+        instacart: {
+            img: "https://placehold.co/120x40/FFFFFF/439a37?text=Instacart",
+            title: "Instacart (USA)",
+            subtitle: "Announced: 'Ask Instacart' AI",
+            points: [
+                "Utilizes GPT-4V (Vision) to parse photos of handwritten lists or recipes.",
+                "AI identifies items and quantities, allowing users to add them in one go.",
+                "Feature is rolling out to testers and will expand after refinements.",
+                "Positioned as a powerful AI-driven convenience feature."
+            ]
+        },
+        walmart: {
+            img: "https://placehold.co/120x40/FFFFFF/0071ce?text=Walmart",
+            title: "Walmart (USA)",
+            subtitle: "Service: 'Text to Shop'",
+            points: [
+                "Allows customers to text item names via SMS to their Walmart account.",
+                "Convenient for adding multiple items without opening the app.",
+                "This is NOT a list-photo feature, but a text-based multi-add convenience.",
+                "Highlights retailer focus on simplifying cart creation through various means."
+            ]
+        }
+    };
+    
+    function renderPilotContent(pilotKey) {
+        const details = pilotDetails[pilotKey];
+        pilotContent.innerHTML = `
+            <div class="text-center md:text-left md:flex items-center gap-8 animate-fade-in">
+                <div class="flex-shrink-0 text-center md:text-left mb-4 md:mb-0">
+                    <h5 class="text-2xl font-bold text-gray-800">${details.title}</h5>
+                    <p class="text-amber-700 font-semibold">${details.subtitle}</p>
+                </div>
+                <div class="flex-grow">
+                    <ul class="space-y-2 text-gray-700">
+                        ${details.points.map(point => `<li class="flex items-start"><span class="text-green-600 font-bold mr-3">✓</span><span>${point}</span></li>`).join('')}
+                    </ul>
+                </div>
+            </div>
+        `;
+
+        pilotBtns.forEach(b => {
+            const btnImg = b.querySelector('img');
+            if (b.dataset.pilot === pilotKey) {
+                btnImg.classList.remove('opacity-50', 'grayscale');
+                btnImg.src = details.img;
+            } else {
+                btnImg.classList.add('opacity-50', 'grayscale');
+                btnImg.src = `https://placehold.co/120x40/FFFFFF/000000?text=${b.dataset.pilot.charAt(0).toUpperCase() + b.dataset.pilot.slice(1)}`;
+            }
+        });
+    }
+
+    pilotBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            renderPilotContent(btn.dataset.pilot);
+        });
+    });
+
+    renderPilotContent('swiggy');
+
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 80) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+});
+</script>
+
+</body>
+</html>
